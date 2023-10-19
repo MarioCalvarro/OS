@@ -68,6 +68,9 @@ dkms.conf
 # zips
 *.zip
 
+# tars
+*.tar
+
 # DS_STORE
 *.DS_Store
  
