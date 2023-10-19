@@ -1,5 +1,6 @@
 SRC = $(wildcard *.c)
 TARGETS = $(SRC:%.c=%)
+HEADERS = $(wildcard *.h)
 
 CC = gcc
 CFLAGS = -g
@@ -8,7 +9,7 @@ LIBS =
 
 all: $(TARGETS)
 
-%.o: %.c Makefile
+%.o: %.c $(HEADERS) Makefile
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(TARGETS): %: %.o
