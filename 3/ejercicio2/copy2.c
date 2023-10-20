@@ -50,7 +50,29 @@ void copy_regular(char *orig, char *dest)
 
 void copy_link(char *orig, char *dest)
 {
+    struct stat file_des;
 
+    if (lstat(orig, &file_des) != 0) { 
+        perror("File to read input file.");
+        exit(1);
+    }
+
+    int file_size = (int)file_des.st_size + 1;
+
+    char* buf = malloc(file_size);
+
+    if (readlink(orig, buf, file_size) == -1) {
+        perror("Failed to read symbolic link contents.");
+        exit(1);
+    }
+    buf[file_size - 1] = '\0';
+
+    if (symlink(buf, dest)) {
+        perror("Failed to create new cloned soft link.");
+        exit(1);
+    }
+
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -77,7 +99,7 @@ int main(int argc, char *argv[])
         copy_regular(argv[1], argv[2]);
         break;
     case SOFT_LINK_FILE:
-        copy_regular(argv[1], argv[2]);
+        copy_link(argv[1], argv[2]);
         break;
     default:
         perror("File is of an incorrect type.");
