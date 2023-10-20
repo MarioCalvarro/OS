@@ -72,6 +72,7 @@ void copy_link(char *orig, char *dest)
         exit(1);
     }
 
+    free(buf);
     return;
 }
 
