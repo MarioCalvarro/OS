@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
 
     size_t blocks;
     for (int i = 1; i < argc; i++) {
+        blocks = 0;
         get_size(argv[i], &blocks);
         printf("%luK\t%s\n", blocks/2, argv[i]);
     }
