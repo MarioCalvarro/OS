@@ -3,13 +3,11 @@
 
 #include <stdio.h>
 
-/**
- * Available types of file supported by the program
- */
-typedef enum {
-    READ_FILE,
-    WRITE_FILE
-} permissions_t;
+struct options {
+	char* input_file;
+    char read_file;
+    char write_file;
+};
 
 #endif
 
