@@ -13,7 +13,7 @@ all: $(TARGETS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(TARGETS): %: %.o
-	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(CC) -o $@.x $^ $(LIBS)
 
 .PHONY: clean
 
