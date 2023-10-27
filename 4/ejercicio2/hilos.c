@@ -9,7 +9,7 @@ struct thread_info {
 
 void *thread_usuario(void *arg)
 {
-    struct thread_info *info = arg;
+    struct thread_info *info = (struct thread_info *) arg;
     pthread_t id = pthread_self();
     int num = info->thread_num;
     char priority = info->priority;
