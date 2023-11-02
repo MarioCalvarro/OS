@@ -8,24 +8,29 @@
 
 int main(void)
 {
-    int fd1,fd2,i,pos;
+    int fd1, fd2, pos;
     char c;
     char buffer[6];
 
     fd1 = open("output.txt", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
-    write(fd1, "00000", 5);
-    for (i=1; i < 10; i++) {
-        pos = lseek(fd1, 0, SEEK_CUR);
+    for (int i = 0; i < 9; i++) {
         if (fork() == 0) {
             /* Child */
-            sprintf(buffer, "%d", i*11111);
+            //5: Initial Pos
+            //2: 2 blocks (00000 and iiiii)
+            //5: Number of chars per block
+            sprintf(buffer, "%d", (i+1)*11111);
+            pos = lseek(fd1, 5 + 2*i*5*sizeof(char), SEEK_SET); 
+            printf("i = %d, pos = %d\n", i+1, pos);
             lseek(fd1, pos, SEEK_SET);
             write(fd1, buffer, 5);
             close(fd1);
             exit(0);
         } else {
             /* Parent */
-            lseek(fd1, 5, SEEK_CUR);
+            pos = lseek(fd1, 2*i*5*sizeof(char), SEEK_SET);
+            lseek(fd1, pos, SEEK_SET);
+            write(fd1, "00000", 5);
         }
     }
 
