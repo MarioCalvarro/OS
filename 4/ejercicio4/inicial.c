@@ -16,20 +16,21 @@ int main(void)
     for (int i = 0; i < 9; i++) {
         if (fork() == 0) {
             /* Child */
+            close(fd1);
+            fd2 = open("output.txt", O_RDWR, S_IRUSR | S_IWUSR);
             //5: Initial Pos
             //2: 2 blocks (00000 and iiiii)
             //5: Number of chars per block
             sprintf(buffer, "%d", (i+1)*11111);
-            pos = lseek(fd1, 5 + 2*i*5*sizeof(char), SEEK_SET); 
-            printf("i = %d, pos = %d\n", i+1, pos);
-            lseek(fd1, pos, SEEK_SET);
-            write(fd1, buffer, 5);
-            close(fd1);
+            //pos = lseek(fd1, 5 + 2*i*5*sizeof(char), SEEK_SET); 
+            lseek(fd2, 5 + 2*i*5*sizeof(char), SEEK_SET);
+            write(fd2, buffer, 5);
+            close(fd2);
             exit(0);
         } else {
             /* Parent */
-            pos = lseek(fd1, 2*i*5*sizeof(char), SEEK_SET);
-            lseek(fd1, pos, SEEK_SET);
+            //pos = lseek(fd1, 2*i*5*sizeof(char), SEEK_SET);
+            lseek(fd1, 2*i*5*sizeof(char), SEEK_SET);
             write(fd1, "00000", 5);
         }
     }

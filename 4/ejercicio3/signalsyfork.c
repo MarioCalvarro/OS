@@ -10,7 +10,7 @@ pid_t kill_pid;
 void kill_child(int sig)
 {
     if (sig == SIGALRM) {
-        kill(kill_pid, SIGTERM);
+        kill(kill_pid, SIGKILL);
     }
 }
 
@@ -21,16 +21,22 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
+    sigset_t grupo;
+    sigemptyset(&grupo);
+    sigaddset(&grupo, SIGINT);
+    sigprocmask(SIG_SETMASK, &grupo, NULL);
+
     pid_t pid = fork(); 
     if (pid == 0) { 
         execvp(argv[1], argv + 1);
-        err(EXIT_FAILURE, "ERROR!");
+        err(EXIT_FAILURE, "execvp");
     }
 
     kill_pid = pid;
 
     struct sigaction act = { 0 };
     act.sa_handler = &kill_child;
+    sigemptyset(&act.sa_mask);
     sigaction(SIGALRM, &act, NULL);
     alarm(5);
 
