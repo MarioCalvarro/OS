@@ -8,7 +8,7 @@
 
 int main(void)
 {
-    int fd1, fd2, pos;
+    int fd1, fd2;
     char c;
     char buffer[6];
 

@@ -24,7 +24,7 @@ void *thread_usuario(void *arg)
 int main(int argc, char* argv[])
 {
     if (argc != 2) {
-        perror("Incorrect number of arguments (only and only 1 required, num of threads)");
+        perror("Incorrect number of arguments (one and only 1 required, number of threads)");
         exit(1);
     }
     int num_threads = atoi(argv[1]);
