@@ -88,21 +88,38 @@ void *client(void *arg)
 
 int main(int argc, char *argv[])
 {
-    pthread_t th_clients[N];
-    client_t clients[N];
-    for (int i = 0; i < N; i++) {
-        int client_type = rand() % 3;
+    if (argc != 2) {
+        perror("Incorrect number of arguments!");
+        exit(1);
+    }
+
+    FILE* file = NULL;
+
+    if ((file = fopen(argv[1], "r")) == NULL) {
+        perror("fopen");
+        exit(1);
+    }
+
+    int num_clients = 0;
+    fscanf(file, "%d", &num_clients);
+
+    pthread_t th_clients[num_clients];
+    client_t clients[num_clients];
+    for (int i = 0; i < num_clients; i++) {
+        int client_type;
+        fscanf(file, "%d", &client_type);
+
         clients[i].id = i;
         clients[i].my_turn = -1;
-        clients[i].is_vip = (client_type < 1);
+        clients[i].is_vip = client_type;
         pthread_create(th_clients + i, NULL, client, (void*)(clients + i));
     }
 
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < num_clients; i++) {
         pthread_join(th_clients[i], NULL);
     }
 
     pthread_cond_destroy(&myturn);
     pthread_mutex_destroy(&m);
-	return 0;
+    return 0;
 }
