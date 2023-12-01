@@ -14,6 +14,7 @@ void cocina(int* raciones, sem_t* cocinero, sem_t* salvajes)
 {
     while(!finish) {
         sem_wait(cocinero);
+        printf("El cocinero pone %d raciones.\n", M);
         *raciones = M;
         sem_post(salvajes);
     }

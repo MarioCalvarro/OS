@@ -17,7 +17,7 @@ void salvaje(int* raciones, sem_t* cocinero, sem_t* salvajes, sem_t* caldero)
             sem_wait(salvajes);
         }
         int seconds = 1 + rand() % 5;
-        printf("Salvaje %lu comiendo durante %d segundos, quedan %d porciones", (long unsigned int)getpid(), seconds, --(*raciones));
+        printf("Salvaje %lu comiendo durante %d segundos, quedan %d porciones\n", (long unsigned int)getpid(), seconds, --(*raciones));
         fflush(stdout);
         sem_post(caldero);
         sleep(seconds);
