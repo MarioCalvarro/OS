@@ -1,3 +1,6 @@
+//Mario Calvarro 
+//Beñat Pérez
+
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
